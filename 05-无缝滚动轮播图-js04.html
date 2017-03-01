@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type=text/css>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            text-align: center;
+        }
+
+        .box {
+            position: relative;
+            width: 1200px;
+            height: 200px;
+            /*background-color: red;*/
+             margin: 100px auto;
+            overflow: hidden;
+        }
+
+        .box ul {
+            /*这里没给宽 js通过函数给的根据图片个数*/
+            list-style: none;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+         button{
+             width: 60px;
+             height: 40px;
+             margin-left: 5px;
+         }
+        .box ul li {
+            float: left;
+            width: 300px;
+            height: 200px;
+        }
+        .box ul li{
+            padding-right: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="box">
+    <ul>
+        <li><img src="images/01.jpg"></li>
+        <li><img src=images/02.jpg></li>
+        <li><img src="images/03.jpg"></li>
+        <li><img src="images/04.jpg"></li>
+    </ul>
+
+</div>
+
+<button>向左</button>
+<button>向右</button>
+
+<!--js开始-->
+
+<script type=text/javascript>
+    var box = document.getElementsByClassName('box')[0];
+    var uls = box.children[0];
+    var lis = uls.children;
+    var buttons = document.getElementsByTagName('button');
+    var speed = 3;
+    /**
+     * innerHTML双向功能,如果不给值那么就返回当前节点对应的子节点
+     *
+     * 如果在后面给了值,那么就会修改掉
+     * */
+    uls.innerHTML = uls.innerHTML + uls.innerHTML;
+    //    alert(uls);
+    //    alert(lis);
+        alert(uls.innerHTML);
+    uls.style.width = lis[0].offsetWidth * lis.length + 'px';
+
+    function move() {
+
+        //判断当一半的时候回归到0
+
+        //往左边滚动
+        if (uls.offsetLeft < -uls.offsetWidth / 2) {
+            uls.style.left = '0';
+        }
+        //往右边滚动的
+        if (uls.offsetLeft > 0) {
+            uls.style.left = -uls.offsetWidth / 2 + 'px';
+        }
+        uls.style.left = uls.offsetLeft +speed+ 'px';
+    }
+    //    alert(uls.innerHTML);
+    var timer = setInterval(move, 5);
+
+    //鼠标移动到div上移除定时器
+    box.onmouseover = function () {
+        clearInterval(timer);
+    };
+    //鼠标移出div外面
+    box.onmouseout = function () {
+        timer = setInterval(move, 30);
+    };
+
+    buttons[0].onclick = function () {
+      speed  = -3;
+    };
+    buttons[1].onclick = function () {
+      speed=3;
+    };
+</script>
+</body>
+</html>
